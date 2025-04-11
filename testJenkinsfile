@@ -1,10 +1,9 @@
 pipeline{
-    agent any
+    agent {docker {image 'node:14.21.3'
+          args '-u root:sudo'}}
 
     stages{
         stage('dep install'){
-            agent {docker {image 'node:14'
-              args '-u root:sudo'}}
             steps{
             //  sh 'npm cache clean'
             //    sh 'sudo chown -R 995:993 "/.npm"'
@@ -12,5 +11,11 @@ pipeline{
             }
 
         }
+        stage('package'){
+            steps{
+                sh 'npm pack'
+            }
+        }
+
     }
 }
